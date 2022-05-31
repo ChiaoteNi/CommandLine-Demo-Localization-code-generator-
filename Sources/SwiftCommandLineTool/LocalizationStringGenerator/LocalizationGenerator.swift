@@ -21,5 +21,19 @@ final class LocalizationGenerator {
     }
 
     func generateLocalizationStrings(with datas: [LocalizationData]) {
+        let contents: [String: String] = datas.reduce(
+            into: [:]
+        ) { partialResult, data in
+            data.localizedStrings
+                .forEach { languageType, text in
+                    let content = "\"\(data.key)\" = \"\(text)\";"
+                    if let current = partialResult[languageType] {
+                        partialResult[languageType] = current + "\n" + content
+                    } else {
+                        partialResult[languageType] = content
+                    }
+                }
+        }
+        localizationFileExporter.exportLocalizationFile(with: contents)
     }
 }
