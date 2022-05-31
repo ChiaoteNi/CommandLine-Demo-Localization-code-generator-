@@ -38,6 +38,17 @@ try configureEnvironment()
 
 let semaphore = DispatchSemaphore(value: 0)
 retrieveLocalizationData { datas in
+    guard let datas = datas else {
+        semaphore.signal()
+        return
+    }
+    let codeExporter = FileGenerator(rootPath: Environments[.model_export_path] ?? ".")
+    let codeGenerator = CodeGenerator(fileExporter: codeExporter)
+    codeGenerator.generateExtensionCode(with: datas)
+
+    let localizationExporter = FileGenerator(rootPath: Environments[.localization_export_path] ?? ".")
+    let localizationGenerator = LocalizationGenerator(fileExporter: localizationExporter)
+    localizationGenerator.generateLocalizationStrings(with: datas)
     semaphore.signal()
 }
 semaphore.wait()
