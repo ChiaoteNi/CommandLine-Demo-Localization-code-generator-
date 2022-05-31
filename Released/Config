@@ -1,0 +1,5 @@
+model_export_path = .
+localization_export_path = .
+sheetName = Localization
+sheetID = 1jl7q3g3ZoqwykuffPve2UNs0mLg1McrAtL1mzKtLTYE
+permission_key = #Please_put_your_own_Google_API_key_here
