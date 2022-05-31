@@ -33,6 +33,11 @@ func retrieveLocalizationData(then handler: @escaping ([LocalizationData]?) -> V
         }
     }
 }
+
 try configureEnvironment()
+
+let semaphore = DispatchSemaphore(value: 0)
 retrieveLocalizationData { datas in
+    semaphore.signal()
 }
+semaphore.wait()
